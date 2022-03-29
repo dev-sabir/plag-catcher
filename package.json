@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.8.6",
+    "axios": "^0.26.1",
     "next": "12.1.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-drag-drop-files": "^2.3.4"
   },
   "devDependencies": {
     "eslint": "8.11.0",
