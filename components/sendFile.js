@@ -14,8 +14,13 @@ export default async function sendFile(file1, file2) {
       },
     }
   );
-  if (res) {
-    console.log("REs ", res.data.Result);
+  //console.log(typeof res.data.Result);
+  //console.log(res.data.Result);
+  //  console.log("Hello");
+  //return res.data.Result;
+
+  if (typeof res.data.Result === typeof 1) {
+    console.log("REs ", res.data.Result * 100);
     console.log(typeof res.data.Result);
     return res.data.Result;
   }

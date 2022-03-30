@@ -1,3 +1,4 @@
+import Axios from "axios";
 import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import {
@@ -8,13 +9,11 @@ import {
   SliderMark,
   Tooltip,
 } from "@chakra-ui/react";
-import sendFile from "../components/sendFile.js";
 const fileTypes = ["PDF", "TXT"];
 export default function Home() {
   const [file1, setFile1] = useState(0);
   const [file2, setFile2] = useState(0);
   const [sliderValue, setSliderValue] = useState(false);
-
   const handleChange1 = (file1) => {
     setFile1(file1);
   };
@@ -23,13 +22,19 @@ export default function Home() {
     setFile2(file2);
   };
   if (file1 && file2) {
-    const result = sendFile(file1, file2);
-    console.log("HI", result);
-    if (typeof result === typeof 1) {
-      console.log("Hello");
-      console.log("Result ", result * 100);
-      setSliderValue(result * 100);
-    }
+    var formData = new FormData();
+    formData.append("file1", file1);
+    formData.append("file2", file2);
+
+    Axios.post("https://detect-plag.herokuapp.com/uploadfile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }).then((response) => {
+      const res = response.data.Result;
+      console.log("sss", res);
+      setSliderValue(res * 100);
+    });
   }
   return (
     <>
@@ -43,13 +48,15 @@ export default function Home() {
         name="file2"
         types={fileTypes}
       />
-      {sliderValue && (
+      {(sliderValue || sliderValue === 0) && (
         <Slider
+          mt="100px"
           id="slider"
-          defaultValue={sliderValue}
+          defaultValue={`${sliderValue}`}
           min={0}
           max={100}
           colorScheme="teal"
+          isDisabled={true}
         >
           <SliderMark value={25} mt="1" ml="-2.5" fontSize="sm">
             25%
